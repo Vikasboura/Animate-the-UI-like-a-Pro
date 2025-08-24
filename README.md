@@ -1,5 +1,5 @@
 # Animate-the-UI-like-a-Pro
-# Spider Interface Landing Page
+# Landing Page
 
 Modern one-section landing page with an **interactive spider‑web background** (HTML Canvas) and **GSAP** animations (navbar slide‑in, CTA pulse, scroll fade‑ins). Fully responsive and deployable as a static site.
 
