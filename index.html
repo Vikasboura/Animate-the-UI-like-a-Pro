@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spider Interface Landing Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #0a0a0a;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    canvas#spiderweb {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(circle at center, #111 0%, #000 100%);
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+
+    header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #00e0ff;
+      letter-spacing: 2px;
+    }
+
+    header nav a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    header nav a:hover {
+      color: #00e0ff;
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 1rem;
+      z-index: 5;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      max-width: 600px;
+    }
+
+    .cta-btn {
+      padding: 0.8rem 2rem;
+      background: #00e0ff;
+      color: #111;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 224, 255, 0.4);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 5rem 2rem;
+      background: #111;
+      position: relative;
+      z-index: 5;
+    }
+
+    .feature-card {
+      background: #1b1b1b;
+      padding: 2rem;
+      border-radius: 16px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    }
+
+    .feature-card h3 {
+      margin-bottom: 1rem;
+      color: #00e0ff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: #0d0d0d;
+      font-size: 0.9rem;
+      z-index: 5;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="spiderweb"></canvas>
+
+  <header>
+    <div class="logo">MyBrand</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#features">Features</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Next-Gen Web Experience</h1>
+    <p>Enjoy an interactive spider-interface background with smooth animations and a clean UI.</p>
+    <button class="cta-btn">Get Started</button>
+  </section>
+
+  <section class="features" id="features">
+    <div class="feature-card">
+      <h3>⚡ Fast</h3>
+      <p>Lightning quick performance with optimized design.</p>
+    </div>
+    <div class="feature-card">
+      <h3>🎨 Stylish</h3>
+      <p>Minimal and futuristic interface crafted with care.</p>
+    </div>
+    <div class="feature-card">
+      <h3>📱 Responsive</h3>
+      <p>Looks amazing on desktop, tablet, and mobile devices.</p>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> MyBrand. All rights reserved.
+  </footer>
+
+  <script>
+    // Year auto update
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Spider Web Background Animation
+    const canvas = document.getElementById("spiderweb");
+    const ctx = canvas.getContext("2d");
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+
+    let nodes = [];
+    const numNodes = 70;
+
+    for (let i = 0; i < numNodes; i++) {
+      nodes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < numNodes; i++) {
+        let n = nodes[i];
+        n.x += n.vx;
+        n.y += n.vy;
+
+        if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+        if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = "#00e0ff";
+        ctx.fill();
+      }
+
+      for (let i = 0; i < numNodes; i++) {
+        for (let j = i + 1; j < numNodes; j++) {
+          let dx = nodes[i].x - nodes[j].x;
+          let dy = nodes[i].y - nodes[j].y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = "rgba(0,224,255," + (1 - dist / 120) + ")";
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Resize canvas
+    window.addEventListener("resize", () => {
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+    });
+  </script>
+</body>
+</html>
+
+
